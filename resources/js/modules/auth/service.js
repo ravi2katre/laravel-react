@@ -34,7 +34,7 @@ export function login(credentials) {
         .then(() => {
          // alert('i am here')
          //password_confirmation: 'secret',
-         credentials['password_confirmation'] = 'secret';
+         //credentials['password_confirmation'] = 'secret';
           Http.post(constant.LOGIN_API_LINK, credentials)
             .then(res => {
               const data = Transformer.fetch(res.data)

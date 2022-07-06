@@ -44,16 +44,24 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $accessToken = $request->user()->token();
+        $json = [];
+        if ($request->user()) {
+            $accessToken = $request->user()->token();
 
-        DB::table('oauth_refresh_tokens')
+            DB::table('oauth_refresh_tokens')
             ->where('access_token_id', $accessToken->id)
             ->update([
                 'revoked' => true,
             ]);
 
-        $accessToken->revoke();
+            $accessToken->revoke();
+            $json['revoked'] = true;
+            $json['access_token_id'] = $accessToken->id;
+            $json['accessToken'] = $accessToken;
+        }else{
+            $json['revoked'] = false;
+        }
 
-        return response()->json([], 201);
+        return response()->json([$json], 201);
     }
 }

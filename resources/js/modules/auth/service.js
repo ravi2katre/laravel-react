@@ -1,4 +1,5 @@
 import Http from '../../utils/Http'
+import {Constants as constant} from '../../utils/Constants'
 import * as authActions from './store/actions'
 import Transformer from '../../utils/Transformer'
 
@@ -9,7 +10,7 @@ import Transformer from '../../utils/Transformer'
  */
 export function fetchUser() {
   return dispatch => {
-    return Http.get('api/v1/auth/me')
+    return Http.get(constant.FETCH_USER_API_LINK)
       .then(res => {
         const data = Transformer.fetch(res.data)
         dispatch(authActions.authUser(data))
@@ -34,11 +35,12 @@ export function login(credentials) {
          // alert('i am here')
          //password_confirmation: 'secret',
          credentials['password_confirmation'] = 'secret';
-          Http.post('api/v1/login', credentials)
+          Http.post(constant.LOGIN_API_LINK, credentials)
             .then(res => {
               const data = Transformer.fetch(res.data)
-              alert(data.accessToken)
+              //alert(data.accessToken)
               dispatch(authActions.authLogin(data.accessToken))
+             
               return resolve()
             })
             .catch((err) => {
@@ -69,7 +71,7 @@ export function login(credentials) {
 export function register(credentials) {
   return dispatch => (
     new Promise((resolve, reject) => {
-      Http.post('register', Transformer.send(credentials))
+      Http.post(constant.REGISTER, Transformer.send(credentials))
         .then(res => {
           const data = Transformer.fetch(res.data)
           dispatch(authActions.authLogin(data.accessToken))
@@ -107,7 +109,7 @@ export function register(credentials) {
  */
 export function logout() {
   return dispatch => {
-    return Http.post('logout')
+    return Http.post(constant.LOGOUT)
       .then(() => {
         dispatch(authActions.authLogout())
       })

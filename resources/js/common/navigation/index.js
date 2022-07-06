@@ -47,7 +47,7 @@ class Navigation extends Component {
   render() {
     return (
       <Navbar className="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
-        <Link to="/" className="navbar-brand">MOEEN.ME</Link>
+        <Link to="/" className="navbar-brand">Ravikatre.in</Link>
         <NavbarToggler className="navbar-toggler d-lg-none" onClick={this.toggleNavbar} />
         {
           this.props.isAuthenticated
